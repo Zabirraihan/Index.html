@@ -20,6 +20,60 @@
     <link rel="stylesheet" href="./assets/css/main.css" type="text/css" />
 
     <script src="assets/js/modernizr.custom.js"></script>
+    <script src="assets/js/email.min.js"></script>
+    <script src="assets/js/sweetalert2@11.js"></script>
+    <script type="text/javascript">
+        (function() {
+            // https://dashboard.emailjs.com/admin/account
+            emailjs.init({
+              publicKey: "EICXrd9wKwVfFUyeq",
+            });
+        })();
+    </script>
+     <script type="text/javascript">
+        window.onload = function() {
+            document.getElementById('contact-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                // these IDs from the previous steps
+                emailjs.sendForm('service_j7odh7r', 'template_r81f47b', this)
+                    .then(() => {
+                        console.log('SUCCESS!');
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.onmouseenter = Swal.stopTimer;
+                                toast.onmouseleave = Swal.resumeTimer;
+                            }
+                            });
+                            Toast.fire({
+                            icon: "success",
+                            title: "Email send  successfully"
+                        });
+                    }, (error) => {
+                        console.log('FAILED...', error);
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.onmouseenter = Swal.stopTimer;
+                                toast.onmouseleave = Swal.resumeTimer;
+                            }
+                            });
+                            Toast.fire({
+                            icon: "error",
+                            title: "Something is wrong"
+                        });
+                    });
+            });
+        }
+    </script>
 </head>
 
 <body>
@@ -1217,15 +1271,14 @@ Feel free to take a look at some of my projects on the portfolio page, and don't
                                         <h3>How Can I <span>Help You?</span></h3>
                                     </div>
 
-                                    <form id="contact_form" class="contact-form"
-                                        action="contact_form/contact_form.php" method="post">
+                                    <form id="contact-form" class="contact-form">
                                         <div class="messages"></div>
-
+                                        <input type="hidden" name="contact_number" value="template_r81f47b">
                                         <div class="controls two-columns">
                                             <div class="fields clearfix">
                                                 <div class="left-column">
                                                     <div class="form-group form-group-with-icon">
-                                                        <input id="form_name" type="text" name="name"
+                                                        <input id="form_name" type="text" name="from_name"
                                                             class="form-control" placeholder="" required="required"
                                                             data-error="Name is required." />
                                                         <label>Full Name</label>
@@ -1234,7 +1287,7 @@ Feel free to take a look at some of my projects on the portfolio page, and don't
                                                     </div>
 
                                                     <div class="form-group form-group-with-icon">
-                                                        <input id="form_email" type="email" name="email"
+                                                        <input id="form_email" type="email" name="form_email"
                                                             class="form-control" placeholder="" required="required"
                                                             data-error="Valid email is required." />
                                                         <label>Email Address</label>
@@ -1242,18 +1295,18 @@ Feel free to take a look at some of my projects on the portfolio page, and don't
                                                         <div class="help-block with-errors"></div>
                                                     </div>
 
-                                                    <div class="form-group form-group-with-icon">
+                                                    <!-- <div class="form-group form-group-with-icon">
                                                         <input id="form_subject" type="text" name="subject"
                                                             class="form-control" placeholder="" required="required"
                                                             data-error="Subject is required." />
                                                         <label>Subject</label>
                                                         <div class="form-control-border"></div>
                                                         <div class="help-block with-errors"></div>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div class="right-column">
                                                     <div class="form-group form-group-with-icon">
-                                                        <textarea id="form_message" name="message" class="form-control" placeholder="" rows="7" required="required"
+                                                        <textarea id="form_message" name="message" class="form-control" placeholder="" rows="7" required="required" 
                                                             data-error="Please, leave me a message."></textarea>
                                                         <label>Message</label>
                                                         <div class="form-control-border"></div>
